@@ -329,7 +329,7 @@ void test_circle_coverage_on_y_0() {
     Point point6 = {0.0, 5.0};
     Interval expected6 = {3.316624790, INFINITY}; 
     Interval actual6 = circle_coverage_on_y_0(circle6, point6);
-    assert_interval_equal(expected5, actual5);
+    assert_interval_equal(expected6, actual6);
 
 
     printf("circle_coverage_on_y0 ok \n");
