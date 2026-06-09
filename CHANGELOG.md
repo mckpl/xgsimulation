@@ -28,4 +28,4 @@
 - `choose_target()` - wybiera cel biorac pod uwage sytuacje na boisku
 - `is_goal()` - weryfikuje czy strzal zakonczyl sie golem
 - `generate_normal_zero_mean()` - generuje liczbe pseudo losowa z rozkladu normalnego o zadanej wariancji i wartosci oczekiwanej rownej 0
-
+- `calculate_xg()` - liczy expected goals, główna funkcja
