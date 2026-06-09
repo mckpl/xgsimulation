@@ -393,6 +393,78 @@ void test_trim_union() {
     printf("trim_union ok \n");
 }
 
+void test_subtract_union_from_interval() {
+    
+    // test
+    Union_Of_Intervals union1 = {NULL, 0};
+    Interval exp1[] = {{-3.66, 3.66}};
+    Union_Of_Intervals expected1 = {exp1, 1};
+
+    Union_Of_Intervals actual1 = subtract_union_from_interval(union1, -3.66, 3.66);
+    assert_union_equal(expected1, actual1);
+    delete_union(actual1);
+
+    //test
+    Interval in2[] = {{4.0, 6.0}};
+    Union_Of_Intervals union2 = {in2, 1};
+    Interval exp2[] = {{0.0, 4.0}, {6.0, 10.0}};
+    Union_Of_Intervals expected2 = {exp2, 2};
+
+    Union_Of_Intervals actual2 = subtract_union_from_interval(union2, 0.0, 10.0);
+    assert_union_equal(expected2, actual2);
+    delete_union(actual2);
+
+    // test
+    Interval in3[] = {{2.0, 3.0}, {5.0, 6.0}, {8.0, 9.0}};
+    Union_Of_Intervals union3 = {in3, 3};
+    Interval exp3[] = {{0.0, 2.0}, {3.0, 5.0}, {6.0, 8.0}, {9.0, 10.0}};
+    Union_Of_Intervals expected3 = {exp3, 4};
+
+    Union_Of_Intervals actual3 = subtract_union_from_interval(union3, 0.0, 10.0);
+    assert_union_equal(expected3, actual3);
+    delete_union(actual3);
+
+    // test
+    Interval in4[] = {{-2.0, 3.0}};
+    Union_Of_Intervals union4 = {in4, 1};
+    Interval exp4[] = {{3.0, 10.0}};
+    Union_Of_Intervals expected4 = {exp4, 1};
+
+    Union_Of_Intervals actual4 = subtract_union_from_interval(union4, 0.0, 10.0);
+    assert_union_equal(expected4, actual4);
+    delete_union(actual4);
+
+    // test
+    Interval in5[] = {{7.0, 12.0}};
+    Union_Of_Intervals union5 = {in5, 1};
+    Interval exp5[] = {{0.0, 7.0}};
+    Union_Of_Intervals expected5 = {exp5, 1};
+
+    Union_Of_Intervals actual5 = subtract_union_from_interval(union5, 0.0, 10.0);
+    assert_union_equal(expected5, actual5);
+    delete_union(actual5);
+
+    // test
+    Interval in6[] = {{-5.0, 15.0}};
+    Union_Of_Intervals union6 = {in6, 1};
+
+    Union_Of_Intervals actual6 = subtract_union_from_interval(union6, 0.0, 10.0);
+    assert(actual6.intervals == NULL);
+    assert(actual6.n == 0);
+
+    // test
+    Interval in7[] = {{-10.0, -5.0}, {15.0, 20.0}}; 
+    Union_Of_Intervals union7 = {in7, 2};
+    Interval exp7[] = {{0.0, 10.0}};
+    Union_Of_Intervals expected7 = {exp7, 1};
+
+    Union_Of_Intervals actual7 = subtract_union_from_interval(union7, 0.0, 10.0);
+    assert_union_equal(expected7, actual7);
+    delete_union(actual7);
+
+    printf("subtract_union_from_interval ok\n");
+}
+
 
 int main() {
     test_compare();
@@ -405,6 +477,7 @@ int main() {
     test_create_union();
     test_circle_coverage_on_y_0();
     test_trim_union();
+    test_subtract_union_from_interval();
 
     return 0;
 }
