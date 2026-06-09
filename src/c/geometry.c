@@ -197,6 +197,93 @@ Union_Of_Intervals trim_union(Union_Of_Intervals union_of_intervals, double left
     return out_union;
 }
 
+Union_Of_Intervals subtract_union_from_interval(Union_Of_Intervals union_of_intervals, 
+    double left_limit, double right_limit) {
+    if (union_of_intervals.n == 0) {
+        Interval* out_interval = (Interval*) malloc(sizeof(Interval));
+        if (!out_interval) return (Union_Of_Intervals) {NULL, 0};
+        out_interval->left = left_limit;
+        out_interval->right = right_limit;
+        return (Union_Of_Intervals) {out_interval, 1};
+    }
+
+    size_t max_number_of_intervals = union_of_intervals.n + 1;
+    Interval* out_intervals = (Interval*) malloc(sizeof(Interval) * max_number_of_intervals);
+
+    if (!out_intervals) return (Union_Of_Intervals) {NULL, 0};
+
+    size_t count = 0;
+    double curr_left = left_limit, curr_right = right_limit;
+    for (size_t i = 0; i < union_of_intervals.n; i++) {
+        Interval shadow = union_of_intervals.intervals[i];
+        if (shadow.right <= curr_left) continue;
+        if (shadow.left >= curr_right) break;
+
+        if (shadow.left > curr_left) {
+            out_intervals[count].left = curr_left;
+            out_intervals[count].right = shadow.left;
+            count++;
+        }
+        curr_left = MAX(curr_left, shadow.right);
+    }
+
+    if (curr_left < curr_right) 
+    {
+        out_intervals[count].left = curr_left;
+        out_intervals[count].right = curr_right;
+        count++;
+    }
+
+    Union_Of_Intervals out_union;
+    out_union.n = count;
+
+    if (count > 0) {
+        Interval* temp = (Interval*) realloc(out_intervals, sizeof(Interval) * count);
+        if (temp) 
+            out_union.intervals = temp;
+        else
+            out_union.intervals = out_intervals;
+    } else {
+        out_union.intervals = NULL;
+        free(out_intervals);
+    }
+
+    return out_union;
+}
+
+Interval biggest_interval(Union_Of_Intervals union_of_intervals) {
+    if (union_of_intervals.n == 0)
+        return (Interval) {0.0, 0.0};
+    
+    Interval biggest_interval = union_of_intervals.intervals[0];
+    double max_length = interval_length(biggest_interval);
+
+    for (size_t i = 1; i < union_of_intervals.n; i++) {
+        Interval curr_interval = union_of_intervals.intervals[i];
+        if (interval_length(curr_interval) > max_length) {
+            max_length = interval_length(curr_interval);
+            biggest_interval = curr_interval;
+        }
+    } 
+
+    return biggest_interval;
+}
+
+int is_point_in_union(Union_Of_Intervals union_of_intervals, double point) {
+    if (union_of_intervals.n == 0) return 0;
+    size_t n = union_of_intervals.n;
+    if (point < union_of_intervals.intervals[0].left ||
+        point > union_of_intervals.intervals[n-1].right) return 0;
+    
+    for (size_t i = 0; i < n; ++i) {
+        Interval current_interval = union_of_intervals.intervals[i];
+        if (point >= current_interval.left && point <= current_interval.right) 
+            return 1;
+    }
+
+    return 0;
+}
+
 void delete_union(Union_Of_Intervals union_of_intervals)
 {
     free(union_of_intervals.intervals);

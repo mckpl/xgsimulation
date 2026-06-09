@@ -54,6 +54,10 @@ double interval_length(Interval interval);
 double interval_midpoint(Interval interval);
 Union_Of_Intervals create_union(Interval* intervals, size_t n);
 Union_Of_Intervals trim_union(Union_Of_Intervals union_of_intervals, double left_limit, double right_limit);
+Union_Of_Intervals subtract_union_from_interval(Union_Of_Intervals union_of_intervals, double left_limit, double right_limit);
+Interval biggest_interval(Union_Of_Intervals union_of_intervals);
+int is_point_in_union(Union_Of_Intervals union_of_intervals, double point);
+
 void delete_union(Union_Of_Intervals union_of_intervals);
 
 Interval circle_coverage_on_y_0(Circle circle, Point point);
