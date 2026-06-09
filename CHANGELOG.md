@@ -19,6 +19,7 @@
 - Testy jednostkowe dla istotnych funkcji geometrycznych (`test_geometry.c`)
 
 ### Added [2026-06-09]
--`subtract_union_from_interval()` - odjęcie od przedziału sumy przedziałów
--`biggest_interval()` - najdłuższy przedział z sumy przedziałów
--`is_point_in_union()` - sprawdzenie czy punkt nalezy do sumy przedziałów
+- `subtract_union_from_interval()` - odjęcie od przedziału sumy przedziałów
+- `biggest_interval()` - najdłuższy przedział z sumy przedziałów
+- `is_point_in_union()` - sprawdzenie czy punkt nalezy do sumy przedziałów
+- 
