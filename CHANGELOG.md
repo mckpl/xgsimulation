@@ -22,4 +22,10 @@
 - `subtract_union_from_interval()` - odjęcie od przedziału sumy przedziałów
 - `biggest_interval()` - najdłuższy przedział z sumy przedziałów
 - `is_point_in_union()` - sprawdzenie czy punkt nalezy do sumy przedziałów
-- 
+- `Positions` - struktura opisujaca obiekty na boisku
+- `create_positions()` - tworzy strukture 
+- `delete_positions()` - usuwa strukture
+- `choose_target()` - wybiera cel biorac pod uwage sytuacje na boisku
+- `is_goal()` - weryfikuje czy strzal zakonczyl sie golem
+- `generate_normal_zero_mean()` - generuje liczbe pseudo losowa z rozkladu normalnego o zadanej wariancji i wartosci oczekiwanej rownej 0
+
