@@ -5,6 +5,8 @@ import numpy as np
 
 if sys.platform == "win32":
     extra_c_comp_args = ["/O2", "/arch:AVX2", "/fp:fast"]
+elif sys.platform == "darwin":
+    extra_c_comp_args = ["-std=c11", "-O3", "-ffast-math"]
 else:
     extra_c_comp_args = ["-std=c11", "-O3", "-march=native", "-ffast-math"]
 
