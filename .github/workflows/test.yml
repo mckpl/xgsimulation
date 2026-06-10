@@ -1,0 +1,41 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy cython pytest
+        pip install -e .
+
+    - name: Run Python tests
+      run: |
+        python tests/test_python.py
+
+    - name: Compile and run C tests (Linux & macOS)
+      if: runner.os != 'Windows'
+      run: |
+        gcc src/c/geometry.c tests/test_geometry.c -lm -o test_geometry
+        ./test_geometry
+        gcc src/c/geometry.c src/c/football.c src/c/random_number.c src/c/simulation.c tests/test_simulation.c -lm -o test_simulation
+        ./test_simulation
